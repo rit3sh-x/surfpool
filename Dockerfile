@@ -22,8 +22,10 @@ RUN cp /src/surfpool/target/release/surfpool /out
 
 FROM debian:bullseye-slim
 
-# Set default network host
-ENV SURFPOOL_NETWORK_HOST=127.0.0.1
+# Bind on all container interfaces, but advertise localhost by default so
+# local Docker users get client-friendly URLs without extra configuration.
+ENV SURFPOOL_NETWORK_HOST=0.0.0.0
+ENV SURFPOOL_PUBLIC_HOST=127.0.0.1
 
 RUN apt update && apt install -y ca-certificates libssl-dev
 

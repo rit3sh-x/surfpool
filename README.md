@@ -83,6 +83,23 @@ Surfpool can also be used through our public [docker image](https://hub.docker.c
 docker run surfpool/surfpool --version
 ```
 
+To run Surfpool from Docker with the default RPC, WebSocket, and Studio ports exposed on your host:
+
+```console
+docker run --rm -p 8899:8899 -p 8900:8900 -p 18488:18488 surfpool/surfpool
+```
+
+The image binds to `0.0.0.0` inside the container, but advertises `127.0.0.1` by default so local Docker workflows continue to get usable URLs. When the container needs to be reachable from another machine, override `SURFPOOL_PUBLIC_HOST`:
+
+```console
+docker run --rm \
+  -p 8899:8899 -p 8900:8900 -p 18488:18488 \
+  -e SURFPOOL_PUBLIC_HOST=staging.example.com \
+  surfpool/surfpool
+```
+
+For fully custom externally visible URLs, such as TLS termination or remapped ports, override `SURFPOOL_PUBLIC_RPC_URL`, `SURFPOOL_PUBLIC_WS_URL`, and `SURFPOOL_PUBLIC_STUDIO_URL`.
+
 Verify installation:
 
 ```console
