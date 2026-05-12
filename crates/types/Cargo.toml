@@ -40,9 +40,20 @@ txtx-addon-kit = { workspace = true }
 txtx-addon-network-svm-types = { workspace = true }
 url = { workspace = true }
 
+# Optional deps used only by the `update_mainnet_features` binary.
+solana-client = { workspace = true, optional = true }
+
 [dev-dependencies]
 test-case = { workspace = true }
 
 [features]
 default = []
 prometheus = []
+# Enables the `update_mainnet_features` binary. Adds heavyweight deps
+# (solana-client), so kept opt-in.
+update-features-tool = ["dep:solana-client"]
+
+[[bin]]
+name = "update_mainnet_features"
+path = "src/bin/update_mainnet_features.rs"
+required-features = ["update-features-tool"]

@@ -124,51 +124,14 @@ impl SvmFeatureConfig {
 
     /// Returns the default mainnet feature configuration.
     ///
-    /// This reflects features currently active on Solana mainnet-beta.
-    /// Note: This may need periodic updates as mainnet features change.
-    /// Last updated: 2026-05-05 (queried from mainnet RPC)
+    /// The list of features to disable lives in the AUTO-GENERATED file
+    /// `crates/types/src/mainnet_disabled_features.rs`, regenerated weekly by
+    /// `crates/types/src/bin/update_mainnet_features.rs` (run from
+    /// `.github/workflows/update-mainnet-features.yml`).
     pub fn default_mainnet_features() -> Self {
-        use agave_feature_set::*;
-
-        // Features that are NOT yet active on mainnet (should be disabled)
-        let disable = vec![
-            // Account data direct mapping not yet on mainnet
-            account_data_direct_mapping::id(),
-            // Blake3 syscall not yet on mainnet
-            blake3_syscall_enabled::id(),
-            // Legacy vote deprecation not yet on mainnet
-            deprecate_legacy_vote_ixs::id(),
-            // SBPF v0 disable not yet on mainnet
-            disable_sbpf_v0_execution::id(),
-            // big_mod_exp syscall not yet on mainnet
-            enable_big_mod_exp_syscall::id(),
-            // Extended program checked not yet on mainnet
-            enable_extend_program_checked::id(),
-            // Loader v4 not yet on mainnet
-            enable_loader_v4::id(),
-            // SBPF v3 not yet on mainnet (v1 and v2 ARE active)
-            enable_sbpf_v3_deployment_and_execution::id(),
-            // Increase tx account lock limit to 128 not yet on mainnet
-            increase_tx_account_lock_limit::id(),
-            // CPI nesting limit raise to 8 not yet on mainnet
-            raise_cpi_nesting_limit_to_8::id(),
-            // SBPF v0 reenable not yet on mainnet
-            reenable_sbpf_v0_execution::id(),
-            // ZK ElGamal reenable not yet on mainnet (disable IS active)
-            reenable_zk_elgamal_proof_program::id(),
-            // remaining_compute_units syscall not yet on mainnet
-            remaining_compute_units_syscall_enabled::id(),
-            // SPL token / p-token replacement not yet on mainnet
-            replace_spl_token_with_p_token::id(),
-            // Stake minimum delegation raise not yet on mainnet
-            stake_raise_minimum_delegation_to_1_sol::id(),
-            // Stricter ABI and runtime constraints not yet on mainnet
-            stricter_abi_and_runtime_constraints::id(),
-        ];
-
         Self {
             enable: vec![],
-            disable,
+            disable: crate::mainnet_disabled_features::MAINNET_DISABLED_FEATURES.to_vec(),
         }
     }
 
